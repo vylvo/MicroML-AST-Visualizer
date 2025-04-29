@@ -23,10 +23,18 @@ add 5 10";
         /// Conditional expression with if-then-else
         /// </summary>
         public static string Conditional =>
-@"let max = fn a b -> 
+@"let max = fn a b ->
   if a > b then a else b
 in
 max 42 17";
+
+        /// <summary>
+        /// Higher-order function example
+        /// </summary>
+        public static string HigherOrderFunction =>
+@"let twice = fn f x -> f (f x) in
+let addOne = fn x -> x + 1 in
+twice addOne 3";
 
         /// <summary>
         /// Get all sample code examples
@@ -37,7 +45,8 @@ max 42 17";
             {
                 { "Simple Expression", SimpleExpression },
                 { "Basic Function", BasicFunction },
-                { "Conditional", Conditional }
+                { "Conditional", Conditional },
+                { "Higher-Order Function", HigherOrderFunction }
             };
         }
     }

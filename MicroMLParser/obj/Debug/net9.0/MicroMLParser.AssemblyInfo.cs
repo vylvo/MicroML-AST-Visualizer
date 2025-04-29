@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MicroMLParser")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99d57472e94f0d9239867e6b62745c027bb3714e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9432128f74410dce1166ff06f26d88accdb502e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MicroMLParser")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MicroMLParser")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

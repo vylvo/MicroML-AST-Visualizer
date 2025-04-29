@@ -15,20 +15,14 @@
                 <textarea id="codeInput" name="Code" class="form-control code-input" rows="10">@Model.Code</textarea>
             </div>
             <div class="sample-buttons">
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sampleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sample Code
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="sampleDropdown">
-                        <li><a class="dropdown-item sample-code-item" href="#" data-code="let x = 42 in&#10;x + 5">Simple Expression</a></li>
-                        <li><a class="dropdown-item sample-code-item" href="#" data-code="let add = fn x y -> x + y in&#10;add 5 10">Basic Function</a></li>
-                        <li><a class="dropdown-item sample-code-item" href="#" data-code="let max = fn a b -> &#10;  if a > b then a else b&#10;in&#10;max 42 17">Conditional</a></li>
-                    </ul>
-                </div>
-                <button type="button" class="btn btn-outline-secondary" id="clearBtn">Clear</button>
+                <button type="button" class="btn btn-outline-secondary" id="sampleSimple">Simple Example</button>
+                <button type="button" class="btn btn-outline-secondary" id="sampleFunction">Function Example</button>
+                <button type="button" class="btn btn-outline-secondary" id="sampleConditional">Conditional Example</button>
+                <button type="button" class="btn btn-outline-secondary" id="sampleHigherOrder">Higher-Order Function</button>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Generate AST</button>
+                <button type="button" class="btn btn-secondary" id="clearBtn">Clear</button>
             </div>
         </form>
     </div>
@@ -59,88 +53,48 @@
             <div class="ast-svg-container">
                 @Html.Raw(Model.SvgOutput)
             </div>
-            <div class="ast-controls">
-                <button type="button" class="btn btn-sm btn-outline-secondary" id="zoomInBtn">
-                    <i class="bi bi-zoom-in"></i> Zoom In
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary" id="zoomOutBtn">
-                    <i class="bi bi-zoom-out"></i> Zoom Out
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary" id="resetZoomBtn">
-                    <i class="bi bi-aspect-ratio"></i> Reset
-                </button>
-            </div>
         </div>
     }
 
     <div class="info-panel">
-        <h3>About MicroML</h3>
-        <p>MicroML is a simple functional programming language used for educational purposes. It supports:</p>
+        <h3>MicroML Language Guide</h3>
+        <p>MicroML is a simple functional programming language. Here are the key syntax elements:</p>
         <ul>
-            <li>Basic arithmetic expressions</li>
-            <li>Functions with multiple parameters</li>
-            <li>Higher-order functions</li>
-            <li>Conditionals (if-then-else)</li>
-            <li>Let bindings</li>
+            <li><strong>Variable binding:</strong> <code>let x = 42 in ...</code></li>
+            <li><strong>Functions:</strong> <code>fn x y -> x + y</code></li>
+            <li><strong>Function application:</strong> <code>add 5 10</code></li>
+            <li><strong>Conditionals:</strong> <code>if x > y then x else y</code></li>
+            <li><strong>Arithmetic:</strong> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></li>
+            <li><strong>Comparisons:</strong> <code>==</code>, <code>!=</code>, <code><</code>, <code>></code>, <code><=</code>, <code>>=</code></li>
         </ul>
-        <p>Try the sample code examples to see different language features visualized as Abstract Syntax Trees.</p>
     </div>
 </div>
 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Sample code selection
-            const sampleCodeItems = document.querySelectorAll('.sample-code-item');
+        document.addEventListener('DOMContentLoaded', function() {
             const codeInput = document.getElementById('codeInput');
             const clearBtn = document.getElementById('clearBtn');
 
-            sampleCodeItems.forEach(item => {
-                item.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const code = this.getAttribute('data-code');
-                    codeInput.value = code;
-                });
+            document.getElementById('sampleSimple').addEventListener('click', function() {
+                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.SimpleExpression));
             });
 
-            clearBtn.addEventListener('click', function () {
+            document.getElementById('sampleFunction').addEventListener('click', function() {
+                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.BasicFunction));
+            });
+
+            document.getElementById('sampleConditional').addEventListener('click', function() {
+                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.Conditional));
+            });
+
+            document.getElementById('sampleHigherOrder').addEventListener('click', function() {
+                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.HigherOrderFunction));
+            });
+
+            clearBtn.addEventListener('click', function() {
                 codeInput.value = '';
             });
-
-            // AST zoom functionality
-            const zoomInBtn = document.getElementById('zoomInBtn');
-            const zoomOutBtn = document.getElementById('zoomOutBtn');
-            const resetZoomBtn = document.getElementById('resetZoomBtn');
-            const svgContainer = document.querySelector('.ast-svg-container');
-
-            if (svgContainer) {
-                let scale = 1;
-
-                zoomInBtn?.addEventListener('click', function () {
-                    scale += 0.1;
-                    applyZoom();
-                });
-
-                zoomOutBtn?.addEventListener('click', function () {
-                    if (scale > 0.2) {
-                        scale -= 0.1;
-                        applyZoom();
-                    }
-                });
-
-                resetZoomBtn?.addEventListener('click', function () {
-                    scale = 1;
-                    applyZoom();
-                });
-
-                function applyZoom() {
-                    const svg = svgContainer.querySelector('svg');
-                    if (svg) {
-                        svg.style.transform = `scale(${scale})`;
-                        svg.style.transformOrigin = 'top left';
-                    }
-                }
-            }
         });
     </script>
 }

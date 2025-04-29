@@ -18,7 +18,6 @@ C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\scopedcss\bundle\MicroMLParser.styles.css
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\scopedcss\projectbundle\MicroMLParser.bundle.scp.css
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\xmxdll68an-61n19gt1b8.gz
-C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\6e0xrjiz53-xtxxf3hu2r.gz
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\p11dxxgvy1-bqjiyaj88i.gz
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\1xpmq3ls7t-c2jlpeoesf.gz
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\hah7nvevvs-erw9l3u2r3.gz
@@ -93,6 +92,7 @@ C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\MicroMLParser.genruntimeconfig.cache
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\ref\MicroMLParser.dll
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\MicroMLParser.sourcelink.json
-C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\ib5klepcil-5saz374ow1.gz
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\r369tqosm6-nvmurjde2r.gz
 C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\ku29odbvlh-nvmurjde2r.gz
+C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\ib5klepcil-ncnucobd7o.gz
+C:\Users\vylvo\OneDrive\Documents\MicroML-AST-Visualizer\MicroMLParser\obj\Debug\net9.0\compressed\6e0xrjiz53-x11sjlww5g.gz

@@ -10,20 +10,19 @@ namespace MicroMLParser.Services
         private const int NodeWidth = 120;
         private const int NodeHeight = 40;
         private const int LevelHeight = 80;
-        private const int NodeHorizontalSpacing = 20;
+        private const int NodeHorizontalSpacing = 40; // Increased spacing
+        private const int LeftPadding = 50; // Added padding to left side
+        private const int TopPadding = 20; // Added padding to top
 
-        public string RenderToSvg(ASTNode root)
+        public string RenderToSvg(ASTNode? root)
         {
             if (root == null)
                 return "<svg width=\"400\" height=\"100\"><text x=\"10\" y=\"50\" fill=\"red\">No AST available</text></svg>";
 
             // Calculate tree dimensions
             var treeDepth = CalculateTreeDepth(root);
-            var treeWidth = CalculateTreeWidth(root) * (NodeWidth + NodeHorizontalSpacing);
-            var treeHeight = treeDepth * LevelHeight + 50;
-
-            // Adjust width if it's too small
-            treeWidth = Math.Max(treeWidth, 400);
+            var treeWidth = Math.Max(600, CalculateTreeWidth(root) * (NodeWidth + NodeHorizontalSpacing) + LeftPadding * 2);
+            var treeHeight = treeDepth * LevelHeight + TopPadding * 2;
 
             var svgBuilder = new StringBuilder();
             svgBuilder.AppendLine($"<svg width=\"{treeWidth}\" height=\"{treeHeight}\" xmlns=\"http://www.w3.org/2000/svg\">");
@@ -32,16 +31,16 @@ namespace MicroMLParser.Services
             svgBuilder.AppendLine("<defs>");
             svgBuilder.AppendLine("  <style>");
             svgBuilder.AppendLine("    .node { fill: #e8f4f8; stroke: #4a90e2; stroke-width: 2px; }");
-            svgBuilder.AppendLine("    .node-text { font-family: Arial, sans-serif; font-size: 12px; fill: #333; }");
+            svgBuilder.AppendLine("    .node-text { font-family: Arial, sans-serif; font-size: 12px; fill: #333; text-anchor: middle; dominant-baseline: middle; }");
             svgBuilder.AppendLine("    .edge { stroke: #4a90e2; stroke-width: 1.5px; }");
             svgBuilder.AppendLine("  </style>");
             svgBuilder.AppendLine("</defs>");
 
             // Draw the tree
             var horizontalPositions = new Dictionary<ASTNode, float>();
-            CalculateHorizontalPositions(root, horizontalPositions);
+            CalculateHorizontalPositions(root, horizontalPositions, LeftPadding);
 
-            DrawNode(svgBuilder, root, treeWidth / 2, 40, 0, horizontalPositions);
+            DrawNode(svgBuilder, root, treeWidth / 2, TopPadding + NodeHeight, 0, horizontalPositions);
 
             svgBuilder.AppendLine("</svg>");
             return svgBuilder.ToString();
@@ -49,17 +48,17 @@ namespace MicroMLParser.Services
 
         private void DrawNode(StringBuilder svgBuilder, ASTNode node, float x, float y, int level, Dictionary<ASTNode, float> horizontalPositions)
         {
-            if (horizontalPositions.ContainsKey(node))
+            if (horizontalPositions.TryGetValue(node, out float posX))
             {
-                x = horizontalPositions[node];
+                x = posX;
             }
 
             // Draw node
             svgBuilder.AppendLine($"<rect class=\"node\" x=\"{x - NodeWidth / 2}\" y=\"{y}\" width=\"{NodeWidth}\" height=\"{NodeHeight}\" rx=\"5\" />");
 
-            // Draw node text
+            // Draw node text - centered both horizontally and vertically
             var nodeText = GetNodeLabel(node);
-            svgBuilder.AppendLine($"<text class=\"node-text\" x=\"{x}\" y=\"{y + NodeHeight / 2 + 5}\" text-anchor=\"middle\">{nodeText}</text>");
+            svgBuilder.AppendLine($"<text class=\"node-text\" x=\"{x}\" y=\"{y + NodeHeight / 2}\">{nodeText}</text>");
 
             // Draw connections and child nodes
             if (node.Children.Count > 0)
@@ -68,104 +67,108 @@ namespace MicroMLParser.Services
 
                 foreach (var child in node.Children)
                 {
-                    float childX = horizontalPositions[child];
+                    if (horizontalPositions.TryGetValue(child, out float childX))
+                    {
+                        // Draw edge
+                        svgBuilder.AppendLine($"<line class=\"edge\" x1=\"{x}\" y1=\"{y + NodeHeight}\" x2=\"{childX}\" y2=\"{childY}\" />");
 
-                    // Draw edge
-                    svgBuilder.AppendLine($"<line class=\"edge\" x1=\"{x}\" y1=\"{y + NodeHeight}\" x2=\"{childX}\" y2=\"{childY}\" />");
-
-                    // Draw child node
-                    DrawNode(svgBuilder, child, childX, childY, level + 1, horizontalPositions);
+                        // Draw child node
+                        DrawNode(svgBuilder, child, childX, childY, level + 1, horizontalPositions);
+                    }
                 }
             }
         }
 
         private void CalculateHorizontalPositions(ASTNode node, Dictionary<ASTNode, float> positions, float startX = 0)
         {
-            var nodeQueue = new Queue<Tuple<ASTNode, int>>();
-            nodeQueue.Enqueue(new Tuple<ASTNode, int>(node, 0));
+            // First, calculate the total width needed for leaf nodes
+            var leafNodes = new List<ASTNode>();
+            GetLeafNodes(node, leafNodes);
 
-            var levelNodes = new Dictionary<int, List<ASTNode>>();
-
-            // Group nodes by level
-            while (nodeQueue.Count > 0)
+            // If no leaf nodes, handle the case
+            if (leafNodes.Count == 0)
             {
-                var (currentNode, level) = nodeQueue.Dequeue();
-
-                if (!levelNodes.ContainsKey(level))
-                {
-                    levelNodes[level] = new List<ASTNode>();
-                }
-
-                levelNodes[level].Add(currentNode);
-
-                foreach (var child in currentNode.Children)
-                {
-                    nodeQueue.Enqueue(new Tuple<ASTNode, int>(child, level + 1));
-                }
+                positions[node] = startX + NodeWidth;
+                return;
             }
 
-            // Process level by level, bottom-up
-            var maxLevel = levelNodes.Keys.Count > 0 ? levelNodes.Keys.Max() : 0;
+            // Place leaf nodes first with consistent spacing
+            float leafSpacing = NodeWidth + NodeHorizontalSpacing;
+            float currentX = startX;
 
-            for (int level = maxLevel; level >= 0; level--)
+            // Place leaf nodes
+            foreach (var leaf in leafNodes)
             {
-                var nodesInLevel = levelNodes[level];
-                var spacing = 0;
+                positions[leaf] = currentX + NodeWidth / 2;
+                currentX += leafSpacing;
+            }
 
-                if (level == maxLevel)
-                {
-                    // Position leaf nodes
-                    spacing = NodeWidth + NodeHorizontalSpacing;
-                    float currentX = startX;
+            // Now work up from bottom to top
+            PositionInternalNodes(node, positions);
+        }
 
-                    foreach (var leafNode in nodesInLevel)
-                    {
-                        positions[leafNode] = currentX;
-                        currentX += spacing;
-                    }
-                }
-                else
-                {
-                    // Position parent nodes
-                    foreach (var parentNode in nodesInLevel)
-                    {
-                        if (parentNode.Children.Count > 0)
-                        {
-                            // Position parent at center of children
-                            float minChildX = float.MaxValue;
-                            float maxChildX = float.MinValue;
+        private void GetLeafNodes(ASTNode node, List<ASTNode> leafNodes)
+        {
+            if (node.Children.Count == 0)
+            {
+                leafNodes.Add(node);
+                return;
+            }
 
-                            foreach (var child in parentNode.Children)
-                            {
-                                if (positions.ContainsKey(child))
-                                {
-                                    minChildX = Math.Min(minChildX, positions[child]);
-                                    maxChildX = Math.Max(maxChildX, positions[child]);
-                                }
-                            }
-
-                            if (minChildX != float.MaxValue)
-                            {
-                                positions[parentNode] = (minChildX + maxChildX) / 2;
-                            }
-                            else
-                            {
-                                positions[parentNode] = startX;
-                            }
-                        }
-                        else
-                        {
-                            // No children, position arbitrarily
-                            positions[parentNode] = startX;
-                        }
-                    }
-                }
-
-                startX += spacing * nodesInLevel.Count;
+            foreach (var child in node.Children)
+            {
+                GetLeafNodes(child, leafNodes);
             }
         }
 
-        private int CalculateTreeDepth(ASTNode node)
+        private void PositionInternalNodes(ASTNode node, Dictionary<ASTNode, float> positions)
+        {
+            // Process children first (bottom-up)
+            foreach (var child in node.Children)
+            {
+                if (!positions.ContainsKey(child))
+                {
+                    PositionInternalNodes(child, positions);
+                }
+            }
+
+            // Position this node based on children
+            if (node.Children.Count > 0)
+            {
+                float minX = float.MaxValue;
+                float maxX = float.MinValue;
+
+                foreach (var child in node.Children)
+                {
+                    if (positions.TryGetValue(child, out float childX))
+                    {
+                        minX = Math.Min(minX, childX);
+                        maxX = Math.Max(maxX, childX);
+                    }
+                }
+
+                if (minX != float.MaxValue && maxX != float.MinValue)
+                {
+                    positions[node] = (minX + maxX) / 2;
+                }
+                else if (minX != float.MaxValue)
+                {
+                    positions[node] = minX;
+                }
+                else if (maxX != float.MinValue)
+                {
+                    positions[node] = maxX;
+                }
+            }
+
+            // If node has no position yet (no children)
+            if (!positions.ContainsKey(node))
+            {
+                positions[node] = NodeWidth; // Default position
+            }
+        }
+
+        private int CalculateTreeDepth(ASTNode? node)
         {
             if (node == null || node.Children.Count == 0)
                 return 1;
@@ -179,7 +182,7 @@ namespace MicroMLParser.Services
             return 1 + maxChildDepth;
         }
 
-        private int CalculateTreeWidth(ASTNode node)
+        private int CalculateTreeWidth(ASTNode? node)
         {
             if (node == null)
                 return 0;
@@ -196,7 +199,7 @@ namespace MicroMLParser.Services
             return Math.Max(1, totalChildrenWidth);
         }
 
-        private string GetNodeLabel(ASTNode node)
+        private static string GetNodeLabel(ASTNode node)
         {
             switch (node)
             {
@@ -218,7 +221,7 @@ namespace MicroMLParser.Services
                 case LetNode let:
                     return $"Let: {let.Variable}";
 
-                case IfNode ifNode:
+                case IfNode _:
                     return "If";
 
                 default:
