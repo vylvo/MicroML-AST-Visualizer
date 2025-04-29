@@ -1,10 +1,76 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "MicroML AST Visualizer";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h1 class="main-title">MicroML AST Visualizer</h1>
+    <p class="intro-text">Enter MicroML code below to see its Abstract Syntax Tree visualization.</p>
+
+    <div class="code-input-container">
+        <form method="post" id="codeForm">
+            <div class="form-group">
+                <label for="codeInput">MicroML Code:</label>
+                <textarea id="codeInput" name="Code" class="form-control code-input" rows="10">@Model.Code</textarea>
+            </div>
+            <div class="sample-buttons">
+                <button type="button" class="btn btn-outline-secondary" id="sampleSimple">Simple Example</button>
+                <button type="button" class="btn btn-outline-secondary" id="sampleFunction">Function Example</button>
+                <button type="button" class="btn btn-outline-secondary" id="sampleHigherOrder">Higher-Order Function</button>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Generate AST</button>
+                <button type="button" class="btn btn-secondary" id="clearBtn">Clear</button>
+            </div>
+        </form>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.SvgOutput))
+    {
+        <div class="ast-output-container">
+            <h2>Abstract Syntax Tree</h2>
+            <div class="ast-svg-container">
+                @Html.Raw(Model.SvgOutput)
+            </div>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="error-container">
+            <h2>Error</h2>
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        </div>
+    }
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sampleSimple = document.getElementById('sampleSimple');
+            const sampleFunction = document.getElementById('sampleFunction');
+            const sampleHigherOrder = document.getElementById('sampleHigherOrder');
+            const codeInput = document.getElementById('codeInput');
+            const clearBtn = document.getElementById('clearBtn');
+
+            sampleSimple.addEventListener('click', function () {
+                codeInput.value = 'let x = 42 in\nx + 5';
+            });
+
+            sampleFunction.addEventListener('click', function () {
+                codeInput.value = 'let add = fn x y -> x + y in\nadd 5 10';
+            });
+
+            sampleHigherOrder.addEventListener('click', function () {
+                codeInput.value = 'let map = fn f xs ->\n  if xs then\n    let head = xs[0] in\n    let tail = xs[1:] in\n    cons (f head) (map f tail)\n  else\n    []\nin\nmap (fn x -> x * x) [1, 2, 3, 4]';
+            });
+
+            clearBtn.addEventListener('click', function () {
+                codeInput.value = '';
+            });
+        });
+    </script>
+}
