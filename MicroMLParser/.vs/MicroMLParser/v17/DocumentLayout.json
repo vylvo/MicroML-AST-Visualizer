@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|c:\\users\\vylvo\\onedrive\\documents\\microml-ast-visualizer\\micromlparser\\services\\micromlparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|solutionrelative:services\\micromlparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|c:\\users\\vylvo\\onedrive\\documents\\microml-ast-visualizer\\micromlparser\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|solutionrelative:pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|c:\\users\\vylvo\\onedrive\\documents\\microml-ast-visualizer\\micromlparser\\micromlparser.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|solutionrelative:micromlparser.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|c:\\users\\vylvo\\onedrive\\documents\\microml-ast-visualizer\\micromlparser\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|solutionrelative:pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|c:\\users\\vylvo\\onedrive\\documents\\microml-ast-visualizer\\micromlparser\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{03DBDA01-287C-5B9B-34B3-B92138167D42}|MicroMLParser.csproj|solutionrelative:pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MicroMLParser.cs",
+              "DocumentMoniker": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Services\\MicroMLParser.cs",
+              "RelativeDocumentMoniker": "Services\\MicroMLParser.cs",
+              "ToolTip": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Services\\MicroMLParser.cs",
+              "RelativeToolTip": "Services\\MicroMLParser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T03:35:52.471Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml.cs",
+              "ToolTip": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "Pages\\Index.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T03:35:19.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml",
+              "ToolTip": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Pages\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-29T03:32:41.762Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Pages\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "Pages\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\Pages\\_ViewImports.cshtml",
+              "RelativeToolTip": "Pages\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-29T03:32:36.794Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MicroMLParser",
+              "DocumentMoniker": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\MicroMLParser.csproj",
+              "RelativeDocumentMoniker": "MicroMLParser.csproj",
+              "ToolTip": "C:\\Users\\vylvo\\OneDrive\\Documents\\MicroML-AST-Visualizer\\MicroMLParser\\MicroMLParser.csproj",
+              "RelativeToolTip": "MicroMLParser.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-04-29T03:31:04.832Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

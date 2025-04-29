@@ -15,16 +15,42 @@
                 <textarea id="codeInput" name="Code" class="form-control code-input" rows="10">@Model.Code</textarea>
             </div>
             <div class="sample-buttons">
-                <button type="button" class="btn btn-outline-secondary" id="sampleSimple">Simple Example</button>
-                <button type="button" class="btn btn-outline-secondary" id="sampleFunction">Function Example</button>
-                <button type="button" class="btn btn-outline-secondary" id="sampleHigherOrder">Higher-Order Function</button>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sampleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sample Code
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sampleDropdown">
+                        <li><a class="dropdown-item sample-code-item" href="#" data-code="let x = 42 in&#10;x + 5">Simple Expression</a></li>
+                        <li><a class="dropdown-item sample-code-item" href="#" data-code="let add = fn x y -> x + y in&#10;add 5 10">Basic Function</a></li>
+                        <li><a class="dropdown-item sample-code-item" href="#" data-code="let max = fn a b -> &#10;  if a > b then a else b&#10;in&#10;max 42 17">Conditional</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-outline-secondary" id="clearBtn">Clear</button>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Generate AST</button>
-                <button type="button" class="btn btn-secondary" id="clearBtn">Clear</button>
             </div>
         </form>
     </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="error-container">
+            <h2>Error</h2>
+            <div class="alert alert-danger">
+                <p><strong>@Model.ErrorMessage</strong></p>
+                @if (Model.ErrorLine > 0)
+                {
+                    <p>Line: @Model.ErrorLine</p>
+                    @if (!string.IsNullOrEmpty(Model.ErrorContext))
+                    {
+                        <pre class="error-context"><code>@Model.ErrorContext</code></pre>
+                    }
+                }
+                <p class="error-help">Check your code for syntax errors and try again.</p>
+            </div>
+        </div>
+    }
 
     @if (!string.IsNullOrEmpty(Model.SvgOutput))
     {
@@ -33,44 +59,88 @@
             <div class="ast-svg-container">
                 @Html.Raw(Model.SvgOutput)
             </div>
-        </div>
-    }
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <div class="error-container">
-            <h2>Error</h2>
-            <div class="alert alert-danger">
-                @Model.ErrorMessage
+            <div class="ast-controls">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="zoomInBtn">
+                    <i class="bi bi-zoom-in"></i> Zoom In
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="zoomOutBtn">
+                    <i class="bi bi-zoom-out"></i> Zoom Out
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="resetZoomBtn">
+                    <i class="bi bi-aspect-ratio"></i> Reset
+                </button>
             </div>
         </div>
     }
+
+    <div class="info-panel">
+        <h3>About MicroML</h3>
+        <p>MicroML is a simple functional programming language used for educational purposes. It supports:</p>
+        <ul>
+            <li>Basic arithmetic expressions</li>
+            <li>Functions with multiple parameters</li>
+            <li>Higher-order functions</li>
+            <li>Conditionals (if-then-else)</li>
+            <li>Let bindings</li>
+        </ul>
+        <p>Try the sample code examples to see different language features visualized as Abstract Syntax Trees.</p>
+    </div>
 </div>
 
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const sampleSimple = document.getElementById('sampleSimple');
-            const sampleFunction = document.getElementById('sampleFunction');
-            const sampleHigherOrder = document.getElementById('sampleHigherOrder');
+            // Sample code selection
+            const sampleCodeItems = document.querySelectorAll('.sample-code-item');
             const codeInput = document.getElementById('codeInput');
             const clearBtn = document.getElementById('clearBtn');
 
-            sampleSimple.addEventListener('click', function () {
-                codeInput.value = 'let x = 42 in\nx + 5';
-            });
-
-            sampleFunction.addEventListener('click', function () {
-                codeInput.value = 'let add = fn x y -> x + y in\nadd 5 10';
-            });
-
-            sampleHigherOrder.addEventListener('click', function () {
-                codeInput.value = 'let map = fn f xs ->\n  if xs then\n    let head = xs[0] in\n    let tail = xs[1:] in\n    cons (f head) (map f tail)\n  else\n    []\nin\nmap (fn x -> x * x) [1, 2, 3, 4]';
+            sampleCodeItems.forEach(item => {
+                item.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const code = this.getAttribute('data-code');
+                    codeInput.value = code;
+                });
             });
 
             clearBtn.addEventListener('click', function () {
                 codeInput.value = '';
             });
+
+            // AST zoom functionality
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const resetZoomBtn = document.getElementById('resetZoomBtn');
+            const svgContainer = document.querySelector('.ast-svg-container');
+
+            if (svgContainer) {
+                let scale = 1;
+
+                zoomInBtn?.addEventListener('click', function () {
+                    scale += 0.1;
+                    applyZoom();
+                });
+
+                zoomOutBtn?.addEventListener('click', function () {
+                    if (scale > 0.2) {
+                        scale -= 0.1;
+                        applyZoom();
+                    }
+                });
+
+                resetZoomBtn?.addEventListener('click', function () {
+                    scale = 1;
+                    applyZoom();
+                });
+
+                function applyZoom() {
+                    const svg = svgContainer.querySelector('svg');
+                    if (svg) {
+                        svg.style.transform = `scale(${scale})`;
+                        svg.style.transformOrigin = 'top left';
+                    }
+                }
+            }
         });
     </script>
 }

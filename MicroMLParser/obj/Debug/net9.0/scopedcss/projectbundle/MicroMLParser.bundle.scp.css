@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html >
+/* _content/MicroMLParser/Pages/Shared/_Layout.cshtml.rz.scp.css */
+<!DOCTYPE html >
 <html lang="en" >
 <head >
 <meta charset="utf-8" / >
@@ -44,4 +45,4 @@ aria-expanded="false" aria-label="Toggle navigation" >
 
 @await RenderSectionAsync("Scripts", required: false)
 </body >
-</html >
+</html[b-uc4f5wvyab] >

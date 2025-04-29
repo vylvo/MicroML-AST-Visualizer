@@ -15,6 +15,8 @@ namespace MicroMLParser.Pages
 
         public string SvgOutput { get; set; }
         public string ErrorMessage { get; set; }
+        public int ErrorLine { get; set; }
+        public string ErrorContext { get; set; }
 
         public IndexModel(MicroMLParser.Services.MicroMLParser parser, ASTRenderer renderer)
         {
@@ -24,10 +26,12 @@ namespace MicroMLParser.Pages
 
         public void OnGet()
         {
-            // Default to empty
+            // Default to an empty string
             Code = string.Empty;
             SvgOutput = string.Empty;
             ErrorMessage = string.Empty;
+            ErrorLine = 0;
+            ErrorContext = string.Empty;
         }
 
         public IActionResult OnPost()
@@ -44,10 +48,21 @@ namespace MicroMLParser.Pages
                 var ast = _parser.Parse(Code);
                 SvgOutput = _renderer.RenderToSvg(ast);
                 ErrorMessage = string.Empty;
+                ErrorLine = 0;
+                ErrorContext = string.Empty;
+            }
+            catch (MicroMLParser.Services.MicroMLParser.ParseException ex)
+            {
+                ErrorMessage = ex.Message;
+                ErrorLine = ex.LineNumber;
+                ErrorContext = ex.Context;
+                SvgOutput = string.Empty;
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Error parsing code: {ex.Message}";
+                ErrorMessage = $"Error: {ex.Message}";
+                ErrorLine = 0;
+                ErrorContext = string.Empty;
                 SvgOutput = string.Empty;
             }
 

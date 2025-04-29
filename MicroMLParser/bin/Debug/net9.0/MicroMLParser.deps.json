@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "MicroMLParser/1.0.0": {
+        "runtime": {
+          "MicroMLParser.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MicroMLParser/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
