@@ -55,7 +55,7 @@
             </div>
         </div>
     }
-
+    
     <div class="info-panel">
         <h3>MicroML Language Guide</h3>
         <p>MicroML is a simple functional programming language. Here are the key syntax elements:</p>
@@ -73,27 +73,74 @@
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const codeInput = document.getElementById('codeInput');
+            // Initialize CodeMirror
+            var codeEditor = CodeMirror.fromTextArea(document.getElementById('codeInput'), {
+                mode: "microml",
+                theme: "dracula",
+                lineNumbers: true,
+                indentUnit: 2,
+                smartIndent: true,
+                tabSize: 2,
+                indentWithTabs: false,
+                electricChars: true,
+                matchBrackets: true,
+                autoCloseBrackets: true,
+                extraKeys: {
+                    "Ctrl-Space": "autocomplete",
+                    "Tab": function(cm) {
+                        if (cm.somethingSelected()) {
+                            cm.indentSelection("add");
+                        } else {
+                            cm.replaceSelection("  ", "end");
+                        }
+                    }
+                }
+            });
+            
+            // Set initial height
+            codeEditor.setSize(null, 200);
+            
+            // Setup error highlighting if there's an error
+            @if (Model.ErrorLine > 0)
+            {
+                <text>
+                setTimeout(function() {
+                    codeEditor.addLineClass(@(Model.ErrorLine - 1), 'background', 'error-line');
+                    codeEditor.setCursor({line: @(Model.ErrorLine - 1), ch: 0});
+                }, 100);
+                </text>
+            }
+            
+            // Add sample code buttons functionality
+            const sampleSimple = document.getElementById('sampleSimple');
+            const sampleFunction = document.getElementById('sampleFunction');
+            const sampleConditional = document.getElementById('sampleConditional');
+            const sampleHigherOrder = document.getElementById('sampleHigherOrder');
             const clearBtn = document.getElementById('clearBtn');
-
-            document.getElementById('sampleSimple').addEventListener('click', function() {
-                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.SimpleExpression));
+            
+            sampleSimple.addEventListener('click', function() {
+                codeEditor.setValue('let x = 5 in\nlet y = 10 in\nx + y * 2');
             });
-
-            document.getElementById('sampleFunction').addEventListener('click', function() {
-                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.BasicFunction));
+            
+            sampleFunction.addEventListener('click', function() {
+                codeEditor.setValue('let add = fn x y -> x + y in\nadd 5 10');
             });
-
-            document.getElementById('sampleConditional').addEventListener('click', function() {
-                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.Conditional));
+            
+            sampleConditional.addEventListener('click', function() {
+                codeEditor.setValue('let max = fn a b ->\n  if a > b then\n    a\n  else\n    b\nin\nmax 42 17');
             });
-
-            document.getElementById('sampleHigherOrder').addEventListener('click', function() {
-                codeInput.value = @Html.Raw(Json.Serialize(MicroMLParser.SampleCode.HigherOrderFunction));
+            
+            sampleHigherOrder.addEventListener('click', function() {
+                codeEditor.setValue('let twice = fn f x -> f (f x) in\nlet addOne = fn x -> x + 1 in\ntwice addOne 3');
             });
-
+            
             clearBtn.addEventListener('click', function() {
-                codeInput.value = '';
+                codeEditor.setValue('');
+            });
+            
+            // Ensure form submission includes CodeMirror content
+            document.getElementById('codeForm').addEventListener('submit', function() {
+                codeEditor.save();
             });
         });
     </script>
